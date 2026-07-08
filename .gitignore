@@ -1,0 +1,17 @@
+# Database
+*.db
+*.sqlite3
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# Power BI
+*.pbix.bak
+
+# OS
+.DS_Store
+Thumbs.db
