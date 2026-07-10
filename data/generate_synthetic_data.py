@@ -40,7 +40,7 @@ SCHEMA_PATH = "../sql/schema.sql"
 START_DATE = date(2024, 1, 1)
 END_DATE = date(2025, 6, 30)
 N_DAYS = (END_DATE - START_DATE).days + 1
-N_AGENTS = 90
+N_AGENTS = 16  # ~5 per process baseline, enough to create real staffing tension
 
 # ---------------------------------------------------------
 # 1) Processes — each with a distinct volume "personality"
@@ -89,7 +89,10 @@ def generate_agents():
     tenure_bands = ["0-6mo", "6-12mo", "1-2yr", "2yr+"]
 
     for i in range(1, N_AGENTS + 1):
-        primary = random.choice(PROCESSES)["process_id"]
+        # Round-robin assignment keeps process headcount even and predictable,
+        # rather than leaving it to random chance (which can badly skew a
+        # small agent pool, e.g. 16 agents split 11/5/0 by pure luck).
+        primary = PROCESSES[(i - 1) % len(PROCESSES)]["process_id"]
         hire_date = fake_date_between(date(2021, 7, 1), date(2025, 6, 1))
         agents.append({
             "agent_id": i,
@@ -268,6 +271,15 @@ def main():
 
     print("Writing to SQLite database...")
     conn = sqlite3.connect(DB_PATH)
+
+    # Drop existing tables first so this script is safe to re-run
+    # (e.g. after tweaking N_AGENTS or other generator parameters).
+    tables = ["processes", "agents", "agent_process_skills", "work_items",
+              "productivity_logs", "volume_forecast_actuals", "attrition"]
+    for t in tables:
+        conn.execute(f"DROP TABLE IF EXISTS {t}")
+    conn.commit()
+
     with open(SCHEMA_PATH, "r") as f:
         conn.executescript(f.read())
 
