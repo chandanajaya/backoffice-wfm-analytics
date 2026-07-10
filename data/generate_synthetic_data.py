@@ -105,7 +105,7 @@ def generate_agents():
     return pd.DataFrame(agents)
 
 
-def generate_agent_skills(agents_df, cross_train_pct=0.18):
+def generate_agent_skills(agents_df, cross_train_pct=0.4):
     rows = []
     # every agent knows their primary process
     for _, row in agents_df.iterrows():
