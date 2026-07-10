@@ -1,5 +1,8 @@
 pandas>=2.0
 numpy>=1.24
-statsmodels>=0.14
-prophet>=1.1
-pulp>=2.7
+
+# Not currently used -- kept as a note for the "if this scaled up" extension
+# path described in the README:
+#   statsmodels / prophet   -> more sophisticated volume forecasting
+#   pulp / ortools          -> optimization-based reallocation instead of the
+#                              current rule-based greedy approach

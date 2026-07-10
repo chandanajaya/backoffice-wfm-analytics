@@ -7,8 +7,8 @@
 ---
 
 ## Phase 0 — Setup (Day 1, ~2–3 hrs)
-- [ ] Create GitHub repo: `backoffice-wfm-analytics`
-- [ ] Set up local folder structure:
+- [x] Create GitHub repo: `backoffice-wfm-analytics`
+- [x] Set up local folder structure:
   ```
   backoffice-wfm-analytics/
   ├── README.md
@@ -18,16 +18,16 @@
   ├── powerbi/
   └── docs/
   ```
-- [ ] Install tools: PostgreSQL or SQLite, Python 3.x, Power BI Desktop
-- [ ] Set up a virtual environment; create `requirements.txt` (pandas, numpy, sqlalchemy, prophet or statsmodels, pulp, faker)
-- [ ] Write a placeholder README with the project pitch (one paragraph — you'll expand it later)
+- [x] Install tools: PostgreSQL or SQLite, Python 3.x, Power BI Desktop
+- [x] Set up a virtual environment; create `requirements.txt` (pandas, numpy, sqlalchemy, prophet or statsmodels, pulp, faker)
+- [x] Write a placeholder README with the project pitch (one paragraph — you'll expand it later)
 
 **Done when:** repo exists, environment runs, empty folders committed.
 
 ---
 
 ## Phase 1 — Data Model (Day 1 afternoon – Day 2)
-- [ ] Design and write `sql/schema.sql`:
+- [x] Design and write `sql/schema.sql`:
   - `processes` (process_id, process_name, LOB, sla_days, productivity_standard, complexity_tier)
   - `agents` (agent_id, name, primary_process_id, hire_date, shift_pattern, tenure_band)
   - `agent_process_skills` (agent_id, process_id) — bridge table for cross-training
@@ -35,38 +35,38 @@
   - `productivity_logs` (agent_id, date, process_id, items_processed, hours_logged, idle_time, aux_time)
   - `volume_forecast_actuals` (process_id, date, forecasted_volume, actual_volume)
   - `attrition` (agent_id, exit_date, reason) — optional
-- [ ] Decide 3 processes/LOBs and their personalities (e.g., steady, month-end-spiky, growing-trend)
-- [ ] Draw a simple ER diagram (draw.io or dbdiagram.io) → save to `docs/`
+- [x] Decide 3 processes/LOBs and their personalities (e.g., steady, month-end-spiky, growing-trend)
+- [x] Draw a simple ER diagram (draw.io or dbdiagram.io) → save to `docs/`
 
 **Done when:** schema.sql runs cleanly and creates all tables with correct foreign keys.
 
 ---
 
 ## Phase 2 — Synthetic Data Generator (Days 3–4)
-- [ ] Write `data/generate_synthetic_data.py` using `faker` + `numpy`/`pandas`
-- [ ] Generate ~50–150 agents across 3 processes, ~10–20% cross-trained
-- [ ] Generate 12–18 months of daily volume per process, each with its own pattern:
+- [x] Write `data/generate_synthetic_data.py` using `faker` + `numpy`/`pandas`
+- [x] Generate ~50–150 agents across 3 processes, ~10–20% cross-trained
+- [x] Generate 12–18 months of daily volume per process, each with its own pattern:
   - Process A: steady + mild weekly seasonality
   - Process B: month-end spikes
   - Process C: upward trend over time
-- [ ] Generate work items with realistic received/completed dates (some breaching SLA on purpose — you need visible problems for the dashboard to be interesting)
-- [ ] Generate productivity logs and occasional attrition events
-- [ ] Load all generated data into your SQL database
-- [ ] Sanity-check row counts and spot-check a few records manually
+- [x] Generate work items with realistic received/completed dates (some breaching SLA on purpose — you need visible problems for the dashboard to be interesting)
+- [x] Generate productivity logs and occasional attrition events
+- [x] Load all generated data into your SQL database
+- [x] Sanity-check row counts and spot-check a few records manually
 
 **Done when:** database is populated and querying `SELECT COUNT(*)` on each table gives sensible numbers.
 
 ---
 
 ## Phase 3 — SQL Analytics Layer (Day 5)
-- [ ] Write `sql/views_kpis.sql` with views for:
+- [x] Write `sql/views_kpis.sql` with views for:
   - TAT/SLA compliance % by process/month
   - Productivity per agent/process (items per hour vs standard)
   - Backlog aging buckets (0–1 day, 1–3 days, 3+ days) by process
   - Utilization/shrinkage (logged hours vs available hours)
   - Rolling attrition rate (window function)
-- [ ] Test each view independently with a few manual queries
-- [ ] Document each view's purpose in a short comment block at the top of the SQL file
+- [x] Test each view independently with a few manual queries
+- [x] Document each view's purpose in a short comment block at the top of the SQL file
 
 **Done when:** all views return correct, sensible numbers you could explain to a non-technical person.
 
@@ -85,7 +85,7 @@ Build in this order — each script depends conceptually on the previous. At 6�
    - Identify surplus/deficit processes per day
    - Reassign cross-trained agents accordingly
    - Recompute capacity gap after reallocation
-- [ ] Have each script write its output back to SQL (new tables, e.g., `fte_requirements`, `backlog_projection`, `reallocation_recommendations`) so Power BI has one place to read from
+- [x] Have each script write its output back to SQL (new tables, e.g., `fte_requirements`, `backlog_projection`, `reallocation_recommendations`) so Power BI has one place to read from
 
 **Decision point (make before step 5):** rule-based reallocation (simpler, faster) vs linear-programming optimization with `pulp` (more impressive, more build time). Pick based on how much time you have left in your timeline.
 
